@@ -12,7 +12,7 @@ junit = "5.6.2"
 koin = "3.1.4"
 konf = "1.1.2"
 #kord = "0.8.x-SNAPSHOT"
-kord = "0.8.0-M12"
+kord = "feature-slash-command-localizations-SNAPSHOT"
 kotlinpoet = "1.10.2"
 ksp = "1.6.10-1.0.2"
 ktor = "1.6.7"
@@ -24,6 +24,7 @@ pf4j = "3.6.0"
 sentry = "5.6.1"
 time4j-base = "5.8"
 time4j-tzdata = "5.0-2021a"
+markdown = "0.2.4"
 
 [libraries]
 commons-validator = { module = "commons-validator:commons-validator", version.ref = "commons-validator" }
@@ -54,6 +55,7 @@ pf4j = { module = "org.pf4j:pf4j", version.ref = "pf4j" }
 sentry = { module = "io.sentry:sentry", version.ref = "sentry" }
 time4j-base = { module = "net.time4j:time4j-base", version.ref = "time4j-base" }
 time4j-tzdata = { module = "net.time4j:time4j-tzdata", version.ref = "time4j-tzdata" }
+markdown = { module = "org.jetbrains:markdown", version.ref = "markdown" }
 
 [bundles]
 commons = [ "commons-validator" ]

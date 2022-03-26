@@ -11,6 +11,7 @@ import com.kotlindiscord.kord.extensions.InvalidCommandException
 import com.kotlindiscord.kord.extensions.checks.types.CheckContext
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.ApplicationCommand
+import com.kotlindiscord.kord.extensions.commands.application.Localized
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.sentry.BreadcrumbType
 import com.kotlindiscord.kord.extensions.sentry.tag
@@ -31,7 +32,6 @@ import dev.kord.core.event.interaction.AutoCompleteInteractionCreateEvent
 import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
 import mu.KLogger
 import mu.KotlinLogging
-import java.util.*
 
 /**
  * Slash command, executed directly in the chat input.
@@ -64,6 +64,11 @@ public abstract class SlashCommand<C : SlashCommandContext<*, A>, A : Arguments>
 
     /** List of subcommands, if any. **/
     public open val subCommands: MutableList<SlashCommand<*, *>> = mutableListOf()
+
+    /**
+     * A [Localized] version of [description].
+     */
+    public val localizedDescription: Localized<String> by lazy { localize(description) }
 
     override val type: ApplicationCommandType = ApplicationCommandType.ChatInput
 
@@ -101,35 +106,6 @@ public abstract class SlashCommand<C : SlashCommandContext<*, A>, A : Arguments>
                     "instead."
             )
         }
-    }
-
-    public override fun getTranslatedName(locale: Locale): String {
-        // Only slash commands need this to be lower-cased.
-
-        if (!nameTranslationCache.containsKey(locale)) {
-            nameTranslationCache[locale] = translationsProvider.translate(
-                this.name,
-                this.extension.bundle,
-                locale
-            ).lowercase()
-        }
-
-        return nameTranslationCache[locale]!!
-    }
-
-    /** Return this command's description translated for the given locale, cached as required. **/
-    public fun getTranslatedDescription(locale: Locale): String {
-        // Only slash commands need this to be lower-cased.
-
-        if (!descriptionTranslationCache.containsKey(locale)) {
-            descriptionTranslationCache[locale] = translationsProvider.translate(
-                this.description,
-                this.extension.bundle,
-                locale
-            )
-        }
-
-        return descriptionTranslationCache[locale]!!
     }
 
     /** Call this to supply a command [body], to be called when the command is executed. **/
