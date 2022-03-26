@@ -44,6 +44,7 @@ import mu.KotlinLogging
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
+import dev.kord.common.entity.optional.Optional.Companion as Optional
 
 /**
  * Abstract class representing common behavior for application command registries.
@@ -562,10 +563,12 @@ public abstract class ApplicationCommandRegistry : KoinComponent {
         choices = choices!!.map {
             val (name, nameLocalizations) = command.localize(it.name)
 
+            val nameLocalizationsOptional = Optional(nameLocalizations)
+
             when (it) {
-                is Choice.IntChoice -> Choice.IntChoice(name, nameLocalizations, it.value)
-                is Choice.NumberChoice -> Choice.NumberChoice(name, nameLocalizations, it.value)
-                is Choice.StringChoice -> Choice.StringChoice(name, nameLocalizations, it.value)
+                is Choice.IntChoice -> Choice.IntChoice(name, nameLocalizationsOptional, it.value)
+                is Choice.NumberChoice -> Choice.NumberChoice(name, nameLocalizationsOptional, it.value)
+                is Choice.StringChoice -> Choice.StringChoice(name, nameLocalizationsOptional, it.value)
             }
         }.toMutableList()
     }
