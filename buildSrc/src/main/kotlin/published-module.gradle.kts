@@ -12,11 +12,7 @@ publishing {
         maven {
             name = "KotDis"
 
-            url = if (project.version.toString().contains("SNAPSHOT")) {
-                uri("https://maven.kotlindiscord.com/repository/maven-snapshots/")
-            } else {
-                uri("https://maven.kotlindiscord.com/repository/maven-releases/")
-            }
+            url = uri("https://schlaubi.jfrog.io/artifactory/mikbot")
 
             credentials {
                 username = project.findProperty("kotdis.user") as String? ?: System.getenv("KOTLIN_DISCORD_USER")
