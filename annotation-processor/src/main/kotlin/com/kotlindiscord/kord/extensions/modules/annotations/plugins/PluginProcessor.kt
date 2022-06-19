@@ -9,6 +9,7 @@ package com.kotlindiscord.kord.extensions.modules.annotations.plugins
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSDeclaration
 import com.google.devtools.ksp.symbol.KSVisitorVoid
 import com.google.devtools.ksp.validate
 import java.util.*
@@ -41,17 +42,7 @@ public class PluginProcessor(
                         .contains("com.kotlindiscord.kord.extensions.plugins.KordExPlugin")
             }.toList()
 
-        val wrongSuperType = plugins
-            .filterIsInstance<KSClassDeclaration>()
-            .filter { symbol ->
-                !(
-                    symbol.validate() &&
-                        symbol.superTypes
-                            .mapNotNull { it.resolve().declaration as? KSClassDeclaration }
-                            .mapNotNull { it.qualifiedName?.asString() }
-                            .contains("com.kotlindiscord.kord.extensions.plugins.KordExPlugin")
-                    )
-            }.toList()
+        val wrongSuperType = emptyList<KSDeclaration>()
 
         wrongSuperType.forEach {
             logger.error(
