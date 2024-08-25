@@ -16,8 +16,7 @@ afterEvaluate {
 				url = uri("https://europe-west3-maven.pkg.dev/mik-music/mikbot")
 
 				credentials {
-					username = project.findProperty("ossrhUsername") as String?
-						?: System.getenv("KORDEX_MAVEN_USERNAME")
+					username = "_json_key_base64"
 
 					password = project.findProperty("ossrhPassword") as String?
 						?: System.getenv("KORDEX_MAVEN_PASSWORD")
