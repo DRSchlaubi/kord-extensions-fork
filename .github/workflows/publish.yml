@@ -12,6 +12,12 @@ permissions:
 
 jobs:
   publish:
+    env:
+      ORG_GRADLE_PROJECT_signingKey: "${{ secrets.SIGNING_KEY }}"
+      ORG_GRADLE_PROJECT_signingPassword: "${{ secrets.SIGNING_KEY_PASSWORD }}"
+
+      OSSRH_PASSWORD: "${{ secrets.GCP_ACCOUNT_KEY }}"
+      TOKEN: "${{ secrets.TOKEN }}"
     runs-on: ubuntu-latest
 
     steps:
@@ -54,11 +60,3 @@ jobs:
         run: "./gradlew publish"
 
         if: contains(steps.project-version.outputs.version, '-SNAPSHOT')
-
-        env:
-          ORG_GRADLE_PROJECT_signingKey: "${{ secrets.SIGNING_KEY }}"
-          ORG_GRADLE_PROJECT_signingPassword: "${{ secrets.SIGNING_KEY_PASSWORD }}"
-
-          OSSRH_PASSWORD: "${{ secrets.GCP_ACCOUNT_KEY }}"
-          TOKEN: "${{ secrets.TOKEN }}"
-
