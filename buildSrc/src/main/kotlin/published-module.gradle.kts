@@ -1,6 +1,9 @@
+import java.util.Base64
+
 plugins {
 	`maven-publish`
 	signing
+	com.google.cloud.artifactregistry.`gradle-plugin`
 }
 
 val sourceJar: Task by tasks.getting
@@ -13,7 +16,7 @@ afterEvaluate {
 			maven {
 				name = "KordEx"
 
-				url = uri("https://europe-west3-maven.pkg.dev/mik-music/mikbot")
+				url = uri("artifactregistry://europe-west3-maven.pkg.dev/mik-music/mikbot")
 
 				credentials {
 					username = "_json_key_base64"
@@ -66,11 +69,11 @@ afterEvaluate {
 	}
 
 	signing {
-		val signingKey: String? by project ?: return@signing
-		val signingPassword: String? by project ?: return@signing
-
-		useInMemoryPgpKeys(signingKey, signingPassword)
-
-//		sign(publishing.publications["maven"])
+		val signingKey = System.getenv("SIGNING_KEY")?.toString()
+		val signingPassword = System.getenv("SIGNING_KEY_PASSWORD")?.toString()
+		if (signingKey != null && signingPassword != null) {
+			useInMemoryPgpKeys(String(Base64.getDecoder().decode(signingKey)), signingPassword)
+			sign(publishing.publications["maven"])
+		}
 	}
 }

@@ -17,6 +17,7 @@ dependencies {
 	implementation("dev.yumi", "yumi-gradle-licenser", "1.2.0")
 	implementation("io.gitlab.arturbosch.detekt", "detekt-gradle-plugin", "1.23.6")
 	implementation("org.jetbrains.dokka", "dokka-gradle-plugin", "1.9.20")
+	implementation("gradle.plugin.com.google.cloud.artifactregistry", "artifactregistry-gradle-plugin", "2.2.1")
 
 	implementation(gradleApi())
 	implementation(localGroovy())
