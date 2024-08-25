@@ -19,6 +19,8 @@ import com.kotlindiscord.kord.extensions.utils.MutableStringKeyedMap
 import com.kotlindiscord.kord.extensions.utils.getLocale
 import dev.kord.common.asJavaLocale
 import dev.kord.common.entity.ApplicationCommandType
+import dev.kord.common.entity.ApplicationIntegrationType
+import dev.kord.common.entity.InteractionContextType
 import dev.kord.common.entity.Permission
 import dev.kord.common.entity.Permissions
 import dev.kord.common.entity.Snowflake
@@ -76,6 +78,7 @@ public abstract class ApplicationCommand<E : InteractionCreateEvent>(
 	 *
 	 * **Calling [guild] or setting [guildId] will disable this automatically**
 	 */
+	@Deprecated("")
 	public open var allowInDms: Boolean = extension.allowApplicationCommandInDMs
 		get() {
 			if (guildId != null) {
@@ -84,6 +87,16 @@ public abstract class ApplicationCommand<E : InteractionCreateEvent>(
 
 			return field
 		}
+
+	/**
+	 * The allowed [execution contexts][InteractionContextType] for this command.
+	 */
+	public open val allowedContexts: MutableSet<InteractionContextType> = mutableSetOf()
+
+	/**
+	 * The allowed [install types][ApplicationIntegrationType] for this application.
+	 */
+	public open val allowedInstallTypes: MutableSet<ApplicationIntegrationType> = mutableSetOf()
 
 	/** Permissions required to be able to run this command. **/
 	public override val requiredPerms: MutableSet<Permission> = mutableSetOf()
