@@ -15,7 +15,7 @@ publishing {
 		maven("artifactregistry://europe-west3-maven.pkg.dev/mik-music/mikbot") {
 			credentials {
 				username = "_json_key_base64"
-				password = System.getenv("GOOGLE_KEY")?.toByteArray()?.let {
+				password = System.getenv("OSSRH_PASSWORD")?.toByteArray()?.let {
 					Base64.getEncoder().encodeToString(it)
 				}
 			}
