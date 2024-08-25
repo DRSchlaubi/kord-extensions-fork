@@ -18,8 +18,7 @@ afterEvaluate {
 				credentials {
 					username = "_json_key_base64"
 
-					password = project.findProperty("ossrhPassword") as String?
-						?: System.getenv("KORDEX_MAVEN_PASSWORD")
+					password = System.getenv("OSSRH_PASSWORD")
 				}
 
 				version = project.version
