@@ -518,12 +518,15 @@ public abstract class ApplicationCommandRegistry : KordExKoinComponent {
 	/**
 	 * Registers the global permissions of [command].
 	 */
+	@Suppress("DEPRECATION")
 	public open fun GlobalApplicationCommandCreateBuilder.registerGlobalPermissions(
 		locale: Locale,
 		command: ApplicationCommand<*>,
 	) {
 		registerGuildPermissions(locale, command)
 		this.dmPermission = command.allowInDms
+		this.contexts = command.allowedContexts.toMutableList()
+		this.integrationTypes = command.allowedInstallTypes.toMutableList()
 	}
 
 	/**
