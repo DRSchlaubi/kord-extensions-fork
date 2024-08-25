@@ -13,11 +13,7 @@ val javadocJar: Task by tasks.getting
 afterEvaluate {
 	publishing {
 		repositories {
-			maven {
-				name = "KordEx"
-
-				url = uri("artifactregistry://europe-west3-maven.pkg.dev/mik-music/mikbot")
-
+			maven("artifactregistry://europe-west3-maven.pkg.dev/mik-music/mikbot") {
 				credentials {
 					username = "_json_key_base64"
 
