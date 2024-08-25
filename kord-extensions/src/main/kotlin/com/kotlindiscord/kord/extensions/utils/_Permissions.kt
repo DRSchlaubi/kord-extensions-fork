@@ -60,6 +60,7 @@ public fun Permission.toTranslationKey(): String? = when (this) {
 	Permission.ViewChannel -> "permission.viewChannel"
 	Permission.ViewCreatorMonetizationAnalytics -> "permission.viewCreatorMonetizationAnalytics"
 	Permission.ViewGuildInsights -> "permission.viewGuildInsights"
+	Permission.USE_EXTERNAL_APPS -> "permission.useExternalApps"
 
 	is Permission.Unknown -> null
 }
