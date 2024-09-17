@@ -7,7 +7,7 @@
 package com.kotlindiscord.kord.extensions.utils
 
 import com.kotlindiscord.kord.extensions.ExtensibleBot
-import dev.kord.core.entity.channel.GuildChannel
+import dev.kord.core.entity.interaction.GuildInteraction
 import dev.kord.core.event.Event
 import dev.kord.core.event.interaction.InteractionCreateEvent
 import dev.kord.core.event.message.MessageCreateEvent
@@ -52,13 +52,7 @@ public suspend fun InteractionCreateEvent.getLocale(): Locale {
 	var result = bot.settings.i18nBuilder.defaultLocale
 
 	for (resolver in bot.settings.i18nBuilder.localeResolvers) {
-		val channel = interaction.channel.asChannelOrNull()
-
-		val guild = if (channel is GuildChannel) {
-			channel.guild
-		} else {
-			null
-		}
+		val guild = (interaction as? GuildInteraction)?.guild
 
 		val resolved = resolver(guild, interaction.channel, interaction.user, interaction)
 
