@@ -17,6 +17,7 @@ import com.kotlindiscord.kord.extensions.types.FailureReason
 import com.kotlindiscord.kord.extensions.utils.MutableStringKeyedMap
 import com.kotlindiscord.kord.extensions.utils.getLocale
 import dev.kord.common.entity.ApplicationCommandType
+import dev.kord.common.entity.ApplicationIntegrationType
 import dev.kord.core.event.interaction.UserCommandInteractionCreateEvent
 import io.github.oshai.kotlinlogging.KLogger
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -79,7 +80,9 @@ public abstract class UserCommand<C : UserCommandContext<C, M>, M : ModalForm>(
 				category = "command.application.user"
 				message = "User command \"$name\" called."
 
-				channel = context.channel.asChannelOrNull()
+				if (context.event.interaction.authorizingIntegrationOwners.containsKey(ApplicationIntegrationType.GuildInstall)) {
+					channel = context.channel.asChannelOrNull()
+				}
 				guild = context.guild?.asGuildOrNull()
 
 				data["command"] = name

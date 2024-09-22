@@ -20,6 +20,7 @@ import com.kotlindiscord.kord.extensions.types.TranslatableContext
 import com.kotlindiscord.kord.extensions.utils.MutableStringKeyedMap
 import dev.kord.common.annotation.KordExperimental
 import dev.kord.common.annotation.KordUnsafe
+import dev.kord.common.entity.ApplicationIntegrationType
 import dev.kord.core.behavior.GuildBehavior
 import dev.kord.core.behavior.MemberBehavior
 import dev.kord.core.behavior.UserBehavior
@@ -166,7 +167,9 @@ public abstract class ComponentContext<E : ComponentInteractionCreateEvent>(
 	 * @param capture breadcrumb data will be modified to add the component context information
 	 */
 	public suspend fun addContextDataToBreadcrumb(capture: SentryBreadcrumbCapture) {
-		capture.channel = channel.asChannelOrNull()
+		if (event.interaction.authorizingIntegrationOwners.containsKey(ApplicationIntegrationType.GuildInstall)) {
+			capture.channel = channel.asChannelOrNull()
+		}
 		capture.guild = guild?.asGuildOrNull()
 
 		capture.data["message.id"] = message.id.toString()

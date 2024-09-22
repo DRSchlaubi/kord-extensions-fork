@@ -20,6 +20,7 @@ import com.kotlindiscord.kord.extensions.types.FailureReason
 import com.kotlindiscord.kord.extensions.utils.MutableStringKeyedMap
 import com.kotlindiscord.kord.extensions.utils.getLocale
 import dev.kord.common.entity.ApplicationCommandType
+import dev.kord.common.entity.ApplicationIntegrationType
 import dev.kord.common.entity.Snowflake
 import dev.kord.core.entity.interaction.GroupCommand
 import dev.kord.core.entity.interaction.InteractionCommand
@@ -215,8 +216,9 @@ public abstract class SlashCommand<C : SlashCommandContext<*, A, M>, A : Argumen
 			context.sentry.breadcrumb(BreadcrumbType.User) {
 				category = "command.application.slash"
 				message = "Slash command \"${commandObj.name}\" called."
-
-				channel = context.channel.asChannelOrNull()
+				if (context.event.interaction.authorizingIntegrationOwners.containsKey(ApplicationIntegrationType.GuildInstall)) {
+					channel = context.channel.asChannelOrNull()
+				}
 				guild = context.guild?.asGuildOrNull()
 
 				data["command"] = commandObj.name
