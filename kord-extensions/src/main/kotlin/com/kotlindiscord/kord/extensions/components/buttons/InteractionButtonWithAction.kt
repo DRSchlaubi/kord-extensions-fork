@@ -12,6 +12,7 @@ import com.kotlindiscord.kord.extensions.components.types.HasPartialEmoji
 import com.kotlindiscord.kord.extensions.sentry.BreadcrumbType
 import com.kotlindiscord.kord.extensions.types.FailureReason
 import com.kotlindiscord.kord.extensions.utils.scheduling.Task
+import dev.kord.common.entity.ApplicationIntegrationType
 import dev.kord.common.entity.DiscordPartialEmoji
 import dev.kord.core.event.interaction.ButtonInteractionCreateEvent
 import io.github.oshai.kotlinlogging.KLogger
@@ -72,7 +73,9 @@ public abstract class InteractionButtonWithAction<C : InteractionButtonContext, 
 			logger.trace { "Submitting error to sentry." }
 
 			val sentryId = context.sentry.captureThrowable(t) {
-				channel = context.channel.asChannelOrNull()
+				if (context.event.interaction.authorizingIntegrationOwners.containsKey(ApplicationIntegrationType.GuildInstall)) {
+					channel = context.channel.asChannelOrNull()
+				}
 				user = context.user.asUserOrNull()
 			}
 

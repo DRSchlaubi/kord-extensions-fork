@@ -11,6 +11,7 @@ import com.kotlindiscord.kord.extensions.components.forms.ModalForm
 import com.kotlindiscord.kord.extensions.sentry.BreadcrumbType
 import com.kotlindiscord.kord.extensions.types.FailureReason
 import com.kotlindiscord.kord.extensions.utils.scheduling.Task
+import dev.kord.common.entity.ApplicationIntegrationType
 import dev.kord.core.event.interaction.SelectMenuInteractionCreateEvent
 import io.github.oshai.kotlinlogging.KLogger
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -93,7 +94,9 @@ public abstract class SelectMenu<C : SelectMenuContext, M : ModalForm>(
 			logger.trace { "Submitting error to sentry." }
 
 			val sentryId = context.sentry.captureThrowable(t) {
-				channel = context.channel.asChannelOrNull()
+				if (context.event.interaction.authorizingIntegrationOwners.containsKey(ApplicationIntegrationType.GuildInstall)) {
+					channel = context.channel.asChannelOrNull()
+				}
 				user = context.user.asUserOrNull()
 			}
 

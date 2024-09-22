@@ -48,8 +48,8 @@ subprojects {
 	version = projectVersion
 
 	tasks.withType<KotlinCompile> {
-		kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
-		kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.contracts.ExperimentalContracts"
+		compilerOptions.freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+		compilerOptions.freeCompilerArgs.add("-opt-in=kotlin.contracts.ExperimentalContracts")
 	}
 
 	repositories {

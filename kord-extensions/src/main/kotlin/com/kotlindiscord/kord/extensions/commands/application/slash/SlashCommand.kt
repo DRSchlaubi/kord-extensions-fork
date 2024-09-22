@@ -309,7 +309,9 @@ public abstract class SlashCommand<C : SlashCommandContext<*, A, M>, A : Argumen
 			kxLogger.trace { "Submitting error to sentry." }
 
 			val sentryId = context.sentry.captureThrowable(t) {
-				channel = context.channel.asChannelOrNull()
+				if (context.event.interaction.authorizingIntegrationOwners.containsKey(ApplicationIntegrationType.GuildInstall)) {
+					channel = context.channel.asChannelOrNull()
+				}
 				user = context.user.asUserOrNull()
 			}
 

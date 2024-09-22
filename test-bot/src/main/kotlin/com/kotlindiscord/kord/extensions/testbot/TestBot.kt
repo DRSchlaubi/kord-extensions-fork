@@ -39,7 +39,6 @@ public suspend fun main() {
 		}
 
 		applicationCommands {
-			defaultGuild(TEST_SERVER_ID)
 		}
 
 		intents {
@@ -61,31 +60,31 @@ public suspend fun main() {
 		}
 
 		extensions {
-			web {
-				hostname = "localhost:8080"
-				siteTitle = "KordEx Testing"
-
-				oauth {
-					clientId = env("OAUTH_CLIENT_ID")
-					clientSecret = env("OAUTH_CLIENT_SECRET")
-				}
-			}
+//			web {
+//				hostname = "localhost:8080"
+//				siteTitle = "KordEx Testing"
+//
+//				oauth {
+//					clientId = env("OAUTH_CLIENT_ID")
+//					clientSecret = env("OAUTH_CLIENT_SECRET")
+//				}
+//			}
 
 			help {
 				paginatorTimeout = 30
 			}
 
-			extPhishing {
-				logChannelName = "alerts"
-			}
-
-			if (envOrNull("PLURALKIT_TESTING") != null) {
-				extPluralKit()
-			}
-
-			if (envOrNull("MAPPINGS_TESTING") != null) {
-				extMappings { }
-			}
+//			extPhishing {
+//				logChannelName = "alerts"
+//			}
+//
+//			if (envOrNull("PLURALKIT_TESTING") != null) {
+//				extPluralKit()
+//			}
+//
+//			if (envOrNull("MAPPINGS_TESTING") != null) {
+//				extMappings { }
+//			}
 
 			add(::ArgumentTestExtension)
 			add(::I18nTestExtension)

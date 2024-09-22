@@ -11,7 +11,9 @@ import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCom
 import com.kotlindiscord.kord.extensions.components.*
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
+import dev.kord.common.entity.ApplicationIntegrationType
 import dev.kord.common.entity.ChannelType
+import dev.kord.common.entity.InteractionContextType
 import dev.kord.core.behavior.channel.asChannelOf
 import dev.kord.core.entity.channel.TextChannel
 
@@ -22,6 +24,8 @@ public class SelectorTestExtension : Extension() {
 		publicSlashCommand {
 			name = "selector"
 			description = "Test selectors."
+			allowedContexts.addAll(InteractionContextType.entries)
+			allowedInstallTypes.addAll(ApplicationIntegrationType.entries)
 
 			publicSubCommand {
 				name = "public"

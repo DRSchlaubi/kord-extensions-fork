@@ -136,7 +136,9 @@ public abstract class UserCommand<C : UserCommandContext<C, M>, M : ModalForm>(
 
 			val sentryId = context.sentry.captureThrowable(t) {
 				user = context.user.asUserOrNull()
-				channel = context.channel.asChannelOrNull()
+				if (context.event.interaction.authorizingIntegrationOwners.containsKey(ApplicationIntegrationType.GuildInstall)) {
+					channel = context.channel.asChannelOrNull()
+				}
 			}
 
 			val errorMessage = if (sentryId != null) {

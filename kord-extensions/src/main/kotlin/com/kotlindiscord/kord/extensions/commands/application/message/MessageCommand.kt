@@ -17,6 +17,7 @@ import com.kotlindiscord.kord.extensions.types.FailureReason
 import com.kotlindiscord.kord.extensions.utils.MutableStringKeyedMap
 import com.kotlindiscord.kord.extensions.utils.getLocale
 import dev.kord.common.entity.ApplicationCommandType
+import dev.kord.common.entity.ApplicationIntegrationType
 import dev.kord.core.event.interaction.MessageCommandInteractionCreateEvent
 import io.github.oshai.kotlinlogging.KLogger
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -130,7 +131,9 @@ public abstract class MessageCommand<C : MessageCommandContext<C, M>, M : ModalF
 
 			val sentryId = context.sentry.captureThrowable(t) {
 				user = context.user.asUserOrNull()
-				channel = context.channel.asChannelOrNull()
+				if (context.event.interaction.authorizingIntegrationOwners.containsKey(ApplicationIntegrationType.GuildInstall)) {
+					channel = context.channel.asChannelOrNull()
+				}
 			}
 
 			val errorMessage = if (sentryId != null) {
