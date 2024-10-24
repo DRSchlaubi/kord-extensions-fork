@@ -12,12 +12,13 @@ import com.kotlindiscord.kord.extensions.koin.KordExKoinComponent
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
+import io.ktor.server.routing.RoutingContext
 import io.ktor.util.pipeline.*
 
 public class RouteRegistry : KordExKoinComponent {
 	private val routes: MutableMap<String, Route> = mutableMapOf()
 
-	public suspend fun handle(verb: Verb, context: PipelineContext<Unit, ApplicationCall>) {
+	public suspend fun handle(verb: Verb, context: RoutingContext) {
 		val call = context.call
 
 		val path = call.parameters.getAll("path")

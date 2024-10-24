@@ -28,9 +28,8 @@ private val client = HttpClient {
  */
 public suspend fun Attachment.download(): ByteArray {
 	val channel = client.get(this.url)
-	val packet = channel.bodyAsChannel()
 
-	return packet.readRemaining().readBytes()
+	return channel.bodyAsBytes()
 }
 
 /** Given a [String] representing a file path, download the attachment to the file it points to. **/
