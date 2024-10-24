@@ -18,8 +18,10 @@ import com.kotlindiscord.kord.extensions.sentry.BreadcrumbType
 import com.kotlindiscord.kord.extensions.sentry.SentryAdapter
 import com.kotlindiscord.kord.extensions.utils.MutableStringKeyedMap
 import com.kotlindiscord.kord.extensions.utils.getKoin
+import dev.kord.common.entity.InteractionContextType
 import dev.kord.core.Kord
 import dev.kord.core.event.Event
+import dev.kord.core.event.interaction.InteractionCreateEvent
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -170,7 +172,9 @@ public open class EventHandler<T : Event>(
 				category = "event"
 				message = "Event \"$eventName\" fired."
 
-				channel = topChannelFor(event)?.asChannel()
+				if (event !is InteractionCreateEvent || event.interaction.context == InteractionContextType.Guild) {
+					channel = topChannelFor(event)?.asChannel()
+				}
 				guild = guildFor(event)?.asGuildOrNull()
 				role = roleBehavior?.guild?.getRoleOrNull(roleBehavior.id)
 				user = userFor(event)?.asUserOrNull()
