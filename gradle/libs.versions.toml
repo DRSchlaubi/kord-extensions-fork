@@ -12,7 +12,7 @@ jsoup = "1.18.1"
 junit = "5.10.3"
 kaml = "0.60.0"
 koin = "3.5.6"
-kord = "feature-user-apps-20241025.192746-9"
+kord = "feature-user-apps-20241025.202855-10
 #kord = "0.12.0"
 ksp = "2.0.20-Beta1-1.0.22"
 ktor = "3.0.0"
@@ -90,14 +90,12 @@ logging = ["kotlin-logging", "slf4j"]
 ktor-server = [
 	"ktor-server-core",
 	"ktor-server-netty",
-
 	"ktor-server-plugin-auth",
 	"ktor-server-plugin-content-negotiation",
 	"ktor-server-plugin-cors",
 	"ktor-server-plugin-forwarded-header",
 	"ktor-server-plugin-status-pages",
 	"ktor-server-plugin-websockets",
-
 	"ktor-server-plugin-kx-json",
 	"ktor-server-plugin-kx-xml",
 ]
