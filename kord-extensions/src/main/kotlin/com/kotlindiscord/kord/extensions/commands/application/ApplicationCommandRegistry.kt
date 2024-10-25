@@ -99,6 +99,7 @@ public abstract class ApplicationCommandRegistry : KordExKoinComponent {
 			commands += it.messageCommands
 			commands += it.slashCommands
 			commands += it.userCommands
+			commands += it.entryPointCommands
 		}
 
 		try {

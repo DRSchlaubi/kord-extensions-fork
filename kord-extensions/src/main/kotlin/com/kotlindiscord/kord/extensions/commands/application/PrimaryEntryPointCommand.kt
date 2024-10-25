@@ -29,4 +29,9 @@ public open class PrimaryEntryPointCommand(extension: Extension) : ApplicationCo
 		event: Nothing,
 		cache: MutableStringKeyedMap<Any>,
 	): Nothing = error("Primary entry point commands can't be called")
+
+	override fun validate() {
+		require(this::handler.isInitialized) { "Handler needs to be set" }
+		require(this::description.isInitialized) { "Handler description to be set" }
+	}
 }
