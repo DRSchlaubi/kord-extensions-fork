@@ -25,6 +25,7 @@ import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
 import dev.kord.core.event.interaction.MessageCommandInteractionCreateEvent
 import dev.kord.core.event.interaction.UserCommandInteractionCreateEvent
 import dev.kord.rest.builder.interaction.MultiApplicationCommandBuilder
+import dev.kord.rest.builder.interaction.entryPoint
 import dev.kord.rest.builder.interaction.input
 import dev.kord.rest.builder.interaction.message
 import dev.kord.rest.builder.interaction.user
@@ -209,6 +210,17 @@ public open class DefaultApplicationCommandRegistry : ApplicationCommandRegistry
 							this.register(locale, it)
 						}
 					}
+
+					is PrimaryEntryPointCommand -> {
+						val (description, descriptionLocalizations) = it.localizedDescription
+
+						entryPoint(name, description, it.handler) {
+							this.nameLocalizations = nameLocalizations
+							this.descriptionLocalizations = descriptionLocalizations
+
+							this.register(locale, it)
+						}
+					}
 				}
 			}
 		}
@@ -289,6 +301,8 @@ public open class DefaultApplicationCommandRegistry : ApplicationCommandRegistry
 
 		return command
 	}
+
+	override suspend fun register(command: PrimaryEntryPointCommand): Snowflake = createDiscordEntryPointCommand(command)
 
 	// endregion
 

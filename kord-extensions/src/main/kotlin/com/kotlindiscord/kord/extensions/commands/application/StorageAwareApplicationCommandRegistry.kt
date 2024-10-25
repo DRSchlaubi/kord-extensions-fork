@@ -65,6 +65,8 @@ public open class StorageAwareApplicationCommandRegistry(
 		return command
 	}
 
+	override suspend fun register(command: PrimaryEntryPointCommand): Snowflake = createDiscordEntryPointCommand(command)
+
 	override suspend fun register(command: UserCommand<*, *>): UserCommand<*, *>? {
 		val commandId = createDiscordCommand(command) ?: return null
 

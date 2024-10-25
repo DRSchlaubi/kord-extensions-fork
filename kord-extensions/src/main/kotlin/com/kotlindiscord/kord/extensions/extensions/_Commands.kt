@@ -16,6 +16,7 @@ import com.kotlindiscord.kord.extensions.checks.types.MessageCommandCheck
 import com.kotlindiscord.kord.extensions.checks.types.SlashCommandCheck
 import com.kotlindiscord.kord.extensions.checks.types.UserCommandCheck
 import com.kotlindiscord.kord.extensions.commands.Arguments
+import com.kotlindiscord.kord.extensions.commands.application.PrimaryEntryPointCommand
 import com.kotlindiscord.kord.extensions.commands.application.message.EphemeralMessageCommand
 import com.kotlindiscord.kord.extensions.commands.application.message.PublicMessageCommand
 import com.kotlindiscord.kord.extensions.commands.application.slash.EphemeralSlashCommand
@@ -478,6 +479,17 @@ public suspend fun Extension.ephemeralUserCommand(
 	return ephemeralUserCommand(commandObj)
 }
 
+/** Register an ephemeral entry point, DSL-style. **/
+@ExtensionDSL
+public suspend fun Extension.primaryEntryPointCommand(
+	body: suspend PrimaryEntryPointCommand.() -> Unit,
+): PrimaryEntryPointCommand {
+	val commandObj = PrimaryEntryPointCommand(this)
+	body(commandObj)
+
+	return primaryEntryPointCommand(commandObj)
+}
+
 /** Register an ephemeral user command, DSL-style. **/
 @ExtensionDSL
 public suspend fun <M : ModalForm> Extension.ephemeralUserCommand(
@@ -498,6 +510,27 @@ public suspend fun <M : ModalForm> Extension.ephemeralUserCommand(
 	try {
 		commandObj.validate()
 		userCommands.add(commandObj)
+	} catch (e: CommandRegistrationException) {
+		logger.error(e) { "Failed to register message command ${commandObj.name} - $e" }
+	} catch (e: InvalidCommandException) {
+		logger.error(e) { "Failed to register message command ${commandObj.name} - $e" }
+	}
+
+	if (applicationCommandRegistry.initialised) {
+		applicationCommandRegistry.register(commandObj)
+	}
+
+	return commandObj
+}
+
+/** Register a custom instance of an ephemeral user command. **/
+@ExtensionDSL
+public suspend fun Extension.primaryEntryPointCommand(
+	commandObj: PrimaryEntryPointCommand,
+): PrimaryEntryPointCommand {
+	try {
+		commandObj.validate()
+		entryPointCommands.add(commandObj)
 	} catch (e: CommandRegistrationException) {
 		logger.error(e) { "Failed to register message command ${commandObj.name} - $e" }
 	} catch (e: InvalidCommandException) {

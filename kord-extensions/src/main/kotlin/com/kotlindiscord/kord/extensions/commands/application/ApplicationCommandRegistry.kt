@@ -132,6 +132,8 @@ public abstract class ApplicationCommandRegistry : KordExKoinComponent {
 	 */
 	public abstract suspend fun register(command: UserCommand<*, *>): UserCommand<*, *>?
 
+	public abstract suspend fun register(command: PrimaryEntryPointCommand): Snowflake
+
 	/** Event handler for slash commands. **/
 	public abstract suspend fun handle(event: ChatInputCommandInteractionCreateEvent)
 
@@ -236,6 +238,7 @@ public abstract class ApplicationCommandRegistry : KordExKoinComponent {
 		is SlashCommand<*, *, *> -> createDiscordSlashCommand(command)
 		is UserCommand<*, *> -> createDiscordUserCommand(command)
 		is MessageCommand<*, *> -> createDiscordMessageCommand(command)
+		is PrimaryEntryPointCommand -> createDiscordEntryPointCommand(command)
 
 		else -> throw IllegalArgumentException("Unknown ApplicationCommand type")
 	}
@@ -356,9 +359,50 @@ public abstract class ApplicationCommandRegistry : KordExKoinComponent {
 		return response.id
 	}
 
+	public open suspend fun createDiscordEntryPointCommand(command: PrimaryEntryPointCommand): Snowflake {
+		val locale = bot.settings.i18nBuilder.defaultLocale
+
+		val (name, nameLocalizations) = command.localizedName
+		val (description, descriptionLocalizations) = command.localizedDescription
+
+		val guild = if (command.guildId != null) {
+			kord.getGuildOrNull(command.guildId!!)
+		} else {
+			null
+		}
+
+		val response = if (guild == null) {
+			kord.createGlobalEntryPointCommand(name, description, command.handler) {
+				this.nameLocalizations = nameLocalizations
+				this.descriptionLocalizations = descriptionLocalizations
+
+				this.register(locale, command)
+			}
+		} else {
+			kord.createGuildEntryPointCommand(guild.id, name, description, command.handler) {
+				this.nameLocalizations = nameLocalizations
+				this.descriptionLocalizations = descriptionLocalizations
+
+				this.register(locale, command)
+			}
+		}
+
+		return response.id
+	}
+
 	// endregion
 
 	// region: Extensions
+
+	/** Registration logic for entry points, extracted for clarity. **/
+	public open suspend fun EntryPointCreateBuilder.register(locale: Locale, command: PrimaryEntryPointCommand) {
+		if (this is GlobalEntryPointCreateBuilder) {
+			registerGlobalPermissions(locale, command)
+		} else {
+			registerGuildPermissions(locale, command)
+		}
+	}
+
 	/** Registration logic for slash commands, extracted for clarity. **/
 	public open suspend fun ChatInputCreateBuilder.register(locale: Locale, command: SlashCommand<*, *, *>) {
 		if (this is GlobalChatInputCreateBuilder) {

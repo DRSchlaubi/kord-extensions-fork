@@ -14,6 +14,7 @@ import com.kotlindiscord.kord.extensions.checks.types.UserCommandCheck
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.ApplicationCommand
 import com.kotlindiscord.kord.extensions.commands.application.ApplicationCommandRegistry
+import com.kotlindiscord.kord.extensions.commands.application.PrimaryEntryPointCommand
 import com.kotlindiscord.kord.extensions.commands.application.message.MessageCommand
 import com.kotlindiscord.kord.extensions.commands.application.slash.SlashCommand
 import com.kotlindiscord.kord.extensions.commands.application.user.UserCommand
@@ -106,6 +107,8 @@ public abstract class Extension : KordExKoinComponent {
 	 * belong to unloaded extensions will not execute.
 	 */
 	public open val userCommands: MutableList<UserCommand<*, *>> = mutableListOf()
+
+	public open val entryPointCommands: MutableList<PrimaryEntryPointCommand> = mutableListOf()
 
 	/**
 	 * List of chat command checks.
