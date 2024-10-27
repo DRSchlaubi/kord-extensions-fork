@@ -9,11 +9,11 @@ package com.kotlindiscord.kord.extensions.commands.application
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.utils.MutableStringKeyedMap
 import dev.kord.common.entity.ApplicationCommandType
-import dev.kord.common.entity.EntryPointCommandHandlerType
+import dev.kord.common.entity.PrimaryEntryPointCommandHandlerType
 
 public open class PrimaryEntryPointCommand(extension: Extension) : ApplicationCommand<Nothing>(extension) {
 
-	public lateinit var handler: EntryPointCommandHandlerType
+	public lateinit var handler: PrimaryEntryPointCommandHandlerType
 
 	/** Command description, as displayed on Discord. **/
 	public open lateinit var description: String

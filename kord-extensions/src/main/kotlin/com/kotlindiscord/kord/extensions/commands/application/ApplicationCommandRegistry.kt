@@ -373,14 +373,14 @@ public abstract class ApplicationCommandRegistry : KordExKoinComponent {
 		}
 
 		val response = if (guild == null) {
-			kord.createGlobalEntryPointCommand(name, description, command.handler) {
+			kord.createGlobalPrimaryEntryPointCommand(name, description, command.handler) {
 				this.nameLocalizations = nameLocalizations
 				this.descriptionLocalizations = descriptionLocalizations
 
 				this.register(locale, command)
 			}
 		} else {
-			kord.createGuildEntryPointCommand(guild.id, name, description, command.handler) {
+			kord.createGuildPrimaryEntryPointCommand(guild.id, name, description, command.handler) {
 				this.nameLocalizations = nameLocalizations
 				this.descriptionLocalizations = descriptionLocalizations
 
