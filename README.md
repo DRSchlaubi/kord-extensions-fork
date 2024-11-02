@@ -3,13 +3,12 @@
 [![Ko-Fi badge](https://img.shields.io/badge/Donate-Buy_me_a_coffee-purple?style=for-the-badge&logo=ko-fi)](https://ko-fi.com/gsc)
 
 [![Docs: Click here](https://img.shields.io/static/v1?label=Docs&message=Click%20here&color=7289DA&style=for-the-badge&logo=read-the-docs)](https://docs.kordex.dev/) [![Discord: Click here](https://img.shields.io/static/v1?label=Discord&message=Click%20here&color=7289DA&style=for-the-badge&logo=discord)](https://discord.gg/nYzQWcjAmK) <br />
-[![Weblate project translated](https://img.shields.io/weblate/progress/kord-extensions?style=for-the-badge)]((https://hosted.weblate.org/engage/kord-extensions/)) <br />
-![Latest](https://img.shields.io/maven-metadata/v?label=Latest&metadataUrl=https%3A%2F%2Fs01.oss.sonatype.org%2Fservice%2Flocal%2Frepositories%2Fsnapshots%2Fcontent%2Fcom%2Fkotlindiscord%2Fkord%2Fextensions%2Fkord-extensions%2Fmaven-metadata.xml&style=for-the-badge)
+[![Weblate project translated](https://img.shields.io/weblate/progress/kord-extensions?style=for-the-badge)]((https://hosted.weblate.org/engage/kord-extensions/))
 
 [![Translation status](https://hosted.weblate.org/widgets/kord-extensions/-/main/287x66-grey.png)](https://hosted.weblate.org/engage/kord-extensions/)
 
 Kord Extensions is an addon for the excellent [Kord library](https://github.com/kordlib/kord). It intends to provide a
-framework for larger bot projects, with easy-to-use commands, rich argument parsing and event handling, wrapped up
+framework for larger bot projects, with easy-to-use commands, rich argument parsing, and event handling, wrapped up
 into individual extension classes.
 
 The approach taken here is relatively different from a lot of Kotlin libraries, many of which prefer to provide a DSL
@@ -26,7 +25,7 @@ Thanks to those that have donated to [support the project via Ko-Fi](https://ko-
 If you'd like to be listed for your donation here, please mention Kord Extensions and provide your GitHub username in
 your donation message.
 
-- @ToxicMushroom
+- [@ToxicMushroom](https://github.com/ToxicMushroom)
 
 # Contributors
 
@@ -40,7 +39,7 @@ The below grid shows the avatars of this repository's top contributors.
   />
 </a>
 
-The above grid is supplied by [contrib.rocks](https://contrib.rocks).
+[contrib.rocks](https://contrib.rocks) provides the above grid.
 
 ---
 
@@ -67,9 +66,9 @@ Optionally, you can provide the following environment variables:
 Additionally, ensure that your test server contains a channel named `test-logs` that your test bot can send messages
 to.
 
-The test bot is intended for testing KordEx's complex systems, such as command handling, plugin loading and extension
-management. If you modify any of these systems (or add new ones), it's important that you update (or add) extensions
-that test them.
+We designed the test bot to test KordEx's complex systems, such as command handling, plugin loading, and extension
+management.
+If you modify any of these systems (or add new ones), it is important you update (or add) extensions that test them.
 
 This module also provides some convenience functions that you can use when writing tests in commands and event
 handlers.

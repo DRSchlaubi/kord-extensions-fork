@@ -115,12 +115,20 @@ fabric.properties
 
 ### Custom ignores
 
-/data
-*/build
-*/*/build
+/**/build/
+/**/build/**
 
 *.hprof
 .env
 docs/site
 .linkie-cache/
 .kotlin/
+detekt.html
+detekt.md
+**/detekt.html
+**/detekt.md
+
+# Testing Paths
+/test-bot/plugins
+/config
+/data

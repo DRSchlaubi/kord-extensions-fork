@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -11,6 +12,7 @@ plugins {
 	id("org.jetbrains.dokka")
 }
 
+val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 val dokkaModuleExtensionName = "dokkaModule"
 
 abstract class DokkaModuleExtension {
@@ -38,20 +40,51 @@ val javadocJar = tasks.register<Jar>("javadocJar") {
 //	archiveClassifier = "html-docs"
 //}
 
+repositories {
+	google()
+	mavenCentral()
+
+	maven {
+		name = "KordEx (Releases)"
+		url = uri("https://releases-repo.kordex.dev")
+	}
+
+	maven {
+		name = "KordEx (Snapshots)"
+		url = uri("https://snapshots-repo.kordex.dev")
+	}
+
+	maven {
+		name = "Sonatype Snapshots"
+		url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+	}
+}
+
 tasks {
 	val projectDir = project.projectDir.relativeTo(rootProject.rootDir).toString()
+
+	val propsTask = register<WriteProperties>("kordExProps") {
+		group = "generation"
+		description = "Generate KordEx properties file"
+
+		comment = "Generated during KordEx compilation"
+		destinationFile = layout.buildDirectory.file("kordex-build.properties")
+		encoding = "UTF-8"
+
+		property("git.branch", getCurrentGitBranch())
+		property("git.hash", getCurrentGitHash())
+
+		property("versions.kord", libs.findVersion("kord").get())
+		property("versions.kordEx", project.version)
+	}
 
 	build {
 		finalizedBy(sourceJar, javadocJar /*dokkaJar*/)
 	}
 
 	processResources {
-		val props = mapOf("version" to project.version)
-
-		inputs.properties(props)
-
-		filesMatching("kordex.properties") {
-			expand(props)
+		from(propsTask) {
+			duplicatesStrategy = DuplicatesStrategy.INCLUDE
 		}
 	}
 
@@ -71,13 +104,13 @@ tasks {
 			targetCompatibility = "13"
 		}
 
-		withType<KotlinCompile>().configureEach {
+		tasks.withType<KotlinCompile>().configureEach {
 			compilerOptions {
 				freeCompilerArgs.add("-Xallow-kotlin-package")
-			}
+				freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+				freeCompilerArgs.add("-opt-in=kotlin.contracts.ExperimentalContracts")
 
-			kotlinOptions {
-				jvmTarget = "13"
+				jvmTarget = JvmTarget.JVM_13
 			}
 		}
 

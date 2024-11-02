@@ -14,13 +14,12 @@ plugins {
 
 	kotlin("jvm")
 
-	id("com.github.jakemarsden.git-hooks")
 	id("org.jetbrains.dokka")
 }
 
 val projectVersion: String by project
 
-group = "com.kotlindiscord.kord.extensions"
+group = "dev.kordex"
 version = projectVersion
 
 val printVersion = task("printVersion") {
@@ -29,11 +28,9 @@ val printVersion = task("printVersion") {
 	}
 }
 
-gitHooks {
-	setHooks(mapOf("pre-commit" to "applyLicenses detekt"))
-}
-
 repositories {
+	// This is here because Dokka will fail to build in CI otherwise.
+
 	google()
 	mavenCentral()
 
@@ -44,15 +41,12 @@ repositories {
 }
 
 subprojects {
-	group = "com.kotlindiscord.kord.extensions"
+	group = "dev.kordex"
 	version = projectVersion
 
-	tasks.withType<KotlinCompile> {
-		compilerOptions.freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
-		compilerOptions.freeCompilerArgs.add("-opt-in=kotlin.contracts.ExperimentalContracts")
-	}
-
 	repositories {
+		// This is here because Dokka will fail to build in CI otherwise.
+
 		rootProject.repositories.forEach {
 			if (it is MavenArtifactRepository) {
 				maven {
@@ -61,5 +55,9 @@ subprojects {
 				}
 			}
 		}
+	}
+
+	tasks.withType<KotlinCompile> {
+		// Removing this block breaks the build, and I don't know why!
 	}
 }

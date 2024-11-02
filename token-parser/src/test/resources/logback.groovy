@@ -1,14 +1,15 @@
 /*
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ * Copyrighted (Kord Extensions, 2024). Licensed under the EUPL-1.2
+ * with the specific provision (EUPL articles 14 & 15) that the
+ * applicable law is the (Republic of) Irish law and the Jurisdiction
+ * Dublin.
+ * Any redistribution must include the specific provision above.
  */
 
-
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder
-import ch.qos.logback.core.joran.spi.ConsoleTarget
 import ch.qos.logback.core.ConsoleAppender
 import ch.qos.logback.core.FileAppender
+import ch.qos.logback.core.joran.spi.ConsoleTarget
 
 def environment = System.getenv("ENVIRONMENT") ?: "dev"
 def defaultLevel = TRACE
