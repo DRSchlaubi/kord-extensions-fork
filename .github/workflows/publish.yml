@@ -57,5 +57,5 @@ jobs:
 
 
       - name: Gradle (Publish)
-        run: "./gradlew publish"
+        run: "./gradlew build publish"
         if: contains(steps.project-version.outputs.version, '-MIKBOT')
