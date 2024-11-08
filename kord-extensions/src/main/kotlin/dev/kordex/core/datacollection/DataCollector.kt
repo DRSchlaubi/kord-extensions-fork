@@ -40,7 +40,7 @@ import java.nio.file.Files
 import java.util.*
 import kotlin.time.Duration.Companion.minutes
 
-private const val forkName = "mikbot"
+private const val FORK_NAME = "mikbot"
 
 @OptIn(InternalAPI::class)
 @Suppress("StringLiteralDuplication", "MagicNumber")
@@ -271,12 +271,11 @@ public class DataCollector(public val level: DataCollection) : KordExKoinCompone
 
 			logger.debug { "Submitting collected data - level: ${level.readable}, last UUID: $lastUUID" }
 
-
 			// This is only required for the mikbot fork
-			entity = when(entity) {
-				is MinimalDataEntity -> entity.copy(fork = forkName)
-				is StandardDataEntity -> entity.copy(fork = forkName)
-				is ExtraDataEntity -> entity.copy(fork = forkName)
+			entity = when (entity) {
+				is MinimalDataEntity -> entity.copy(fork = FORK_NAME)
+				is StandardDataEntity -> entity.copy(fork = FORK_NAME)
+				is ExtraDataEntity -> entity.copy(fork = FORK_NAME)
 				else -> entity
 			}
 
