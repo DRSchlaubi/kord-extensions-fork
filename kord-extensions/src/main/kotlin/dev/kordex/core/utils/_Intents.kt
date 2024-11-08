@@ -27,6 +27,7 @@ public fun Intent.getName(): String = when (this) {
 	is Intent.GuildMessageTyping -> "Guild Message Typing"
 	is Intent.GuildMessages -> "Guild Messages"
 	is Intent.GuildModeration -> "Guild Moderation"
+	is Intent.GuildExpressions -> "Guild Expressions"
 	is Intent.GuildPresences -> "Guild Presences"
 	is Intent.GuildScheduledEvents -> "Guild Scheduled Events"
 	is Intent.GuildVoiceStates -> "Guild Voice States"
