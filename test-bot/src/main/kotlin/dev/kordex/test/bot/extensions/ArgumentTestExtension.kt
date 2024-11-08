@@ -12,6 +12,7 @@ package dev.kordex.test.bot.extensions
 
 import dev.kord.common.entity.ChannelType
 import dev.kord.common.entity.ForumTag
+import dev.kord.common.entity.Snowflake
 import dev.kord.core.behavior.channel.asChannelOfOrNull
 import dev.kord.core.entity.Attachment
 import dev.kord.core.entity.Emoji
@@ -25,11 +26,27 @@ import dev.kordex.core.extensions.publicSlashCommand
 import dev.kordex.core.i18n.toKey
 import dev.kordex.core.utils.suggestStringCollection
 import dev.kordex.core.utils.suggestStringMap
+import dev.kordex.modules.func.mappings.i18n.generated.MappingsTranslations.Argument.MappingsChannel.typeName
 
 public class ArgumentTestExtension : Extension() {
 	override val name: String = "kordex.test-args"
 
 	override suspend fun setup() {
+		publicSlashCommand(::SerializedArguments) {
+			name = "test-serialized".toKey()
+			description = "Test the serialized converter".toKey()
+
+			action {
+				respond {
+					content = buildString {
+						appendLine("**Boolean:** ${arguments.bool} (`${arguments.bool::class.qualifiedName}`)")
+						appendLine("**Integer:** ${arguments.int} (`${arguments.int::class.qualifiedName}`)")
+						appendLine("**Snowflake:** ${arguments.snowflake} (`${arguments.snowflake::class.qualifiedName}`)")
+					}
+				}
+			}
+		}
+
 		publicSlashCommand(::TagArgs) {
 			name = "test-tag".toKey()
 			description = "Test the tags converter".toKey()
@@ -234,6 +251,26 @@ public class ArgumentTestExtension : Extension() {
 						.filter { it.contains(one.lowercase()) }
 				)
 			}
+		}
+	}
+
+	public inner class SerializedArguments : Arguments() {
+		public val bool: Boolean by serialized {
+			name = "boolean".toKey()
+			description = "Boolean argument".toKey()
+			typeName = "Boolean".toKey()
+		}
+
+		public val int: Int by serialized {
+			name = "int".toKey()
+			description = "Integer argument".toKey()
+			typeName = "Integer".toKey()
+		}
+
+		public val snowflake: Snowflake by serialized {
+			name = "snowflake".toKey()
+			description = "Snowflake argument".toKey()
+			typeName = "ID".toKey()
 		}
 	}
 }

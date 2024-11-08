@@ -1,26 +1,17 @@
-<!--
-	Copyrighted (Kord Extensions, 2024). Licensed under the EUPL-1.2
-	with the specific provision (EUPL articles 14 & 15) that the
-	applicable law is the (Republic of) Irish law and the Jurisdiction
-	Dublin.
-	Any redistribution must include the specific provision above.
--->
+<script setup lang="ts">
+import { cn } from '@/lib/utils'
+import { ToastViewport, type ToastViewportProps } from 'radix-vue'
+import { computed, type HTMLAttributes } from 'vue'
 
-<script lang="ts" setup>
-	import { type HTMLAttributes, computed } from "vue"
-	import { ToastViewport, type ToastViewportProps } from "radix-vue"
-	import { cn } from "@/lib/utils"
+const props = defineProps<ToastViewportProps & { class?: HTMLAttributes['class'] }>()
 
-	const props = defineProps<ToastViewportProps & { class?: HTMLAttributes["class"] }>()
+const delegatedProps = computed(() => {
+  const { class: _, ...delegated } = props
 
-	const delegatedProps = computed(() => {
-		const { class: _, ...delegated } = props
-
-		return delegated
-	})
+  return delegated
+})
 </script>
 
 <template>
-	<ToastViewport :class="cn('fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]', props.class)"
-								 v-bind="delegatedProps" />
+  <ToastViewport v-bind="delegatedProps" :class="cn('fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]', props.class)" />
 </template>

@@ -1,22 +1,14 @@
-<!--
-	Copyrighted (Kord Extensions, 2024). Licensed under the EUPL-1.2
-	with the specific provision (EUPL articles 14 & 15) that the
-	applicable law is the (Republic of) Irish law and the Jurisdiction
-	Dublin.
-	Any redistribution must include the specific provision above.
--->
+<script setup lang="ts">
+import type { HTMLAttributes } from 'vue'
+import { cn } from '@/lib/utils'
 
-<script lang="ts" setup>
-	import type { HTMLAttributes } from "vue"
-	import { cn } from "@/lib/utils"
-
-	const props = defineProps<{
-		class?: HTMLAttributes["class"]
-	}>()
+const props = defineProps<{
+  class?: HTMLAttributes['class']
+}>()
 </script>
 
 <template>
-	<h5 :class="cn('mb-1 font-medium leading-none tracking-tight', props.class)">
-		<slot />
-	</h5>
+  <h5 :class="cn('mb-1 font-medium leading-none tracking-tight', props.class)">
+    <slot />
+  </h5>
 </template>

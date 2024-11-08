@@ -1,49 +1,41 @@
-<!--
-	Copyrighted (Kord Extensions, 2024). Licensed under the EUPL-1.2
-	with the specific provision (EUPL articles 14 & 15) that the
-	applicable law is the (Republic of) Irish law and the Jurisdiction
-	Dublin.
-	Any redistribution must include the specific provision above.
--->
+<script setup lang="ts">
+import { cn } from '@/lib/utils'
+import { Circle } from 'lucide-vue-next'
+import {
+  DropdownMenuItemIndicator,
+  DropdownMenuRadioItem,
+  type DropdownMenuRadioItemEmits,
+  type DropdownMenuRadioItemProps,
+  useForwardPropsEmits,
+} from 'radix-vue'
+import { computed, type HTMLAttributes } from 'vue'
 
-<script lang="ts" setup>
-	import { type HTMLAttributes, computed } from "vue"
-	import {
-		DropdownMenuItemIndicator,
-		DropdownMenuRadioItem,
-		type DropdownMenuRadioItemEmits,
-		type DropdownMenuRadioItemProps,
-		useForwardPropsEmits,
-	} from "radix-vue"
-	import { Circle } from "lucide-vue-next"
-	import { cn } from "@/lib/utils"
+const props = defineProps<DropdownMenuRadioItemProps & { class?: HTMLAttributes['class'] }>()
 
-	const props = defineProps<DropdownMenuRadioItemProps & { class?: HTMLAttributes["class"] }>()
+const emits = defineEmits<DropdownMenuRadioItemEmits>()
 
-	const emits = defineEmits<DropdownMenuRadioItemEmits>()
+const delegatedProps = computed(() => {
+  const { class: _, ...delegated } = props
 
-	const delegatedProps = computed(() => {
-		const { class: _, ...delegated } = props
+  return delegated
+})
 
-		return delegated
-	})
-
-	const forwarded = useForwardPropsEmits(delegatedProps, emits)
+const forwarded = useForwardPropsEmits(delegatedProps, emits)
 </script>
 
 <template>
-	<DropdownMenuRadioItem
-		:class="cn(
+  <DropdownMenuRadioItem
+    v-bind="forwarded"
+    :class="cn(
       'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       props.class,
     )"
-		v-bind="forwarded"
-	>
+  >
     <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuItemIndicator>
         <Circle class="h-2 w-2 fill-current" />
       </DropdownMenuItemIndicator>
     </span>
-		<slot />
-	</DropdownMenuRadioItem>
+    <slot />
+  </DropdownMenuRadioItem>
 </template>

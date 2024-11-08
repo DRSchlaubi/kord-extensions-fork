@@ -1,35 +1,27 @@
-<!--
-	Copyrighted (Kord Extensions, 2024). Licensed under the EUPL-1.2
-	with the specific provision (EUPL articles 14 & 15) that the
-	applicable law is the (Republic of) Irish law and the Jurisdiction
-	Dublin.
-	Any redistribution must include the specific provision above.
--->
+<script setup lang="ts">
+import { cn } from '@/lib/utils'
+import { Label, type LabelProps } from 'radix-vue'
+import { computed, type HTMLAttributes } from 'vue'
 
-<script lang="ts" setup>
-	import { type HTMLAttributes, computed } from "vue"
-	import { Label, type LabelProps } from "radix-vue"
-	import { cn } from "@/lib/utils"
+const props = defineProps<LabelProps & { class?: HTMLAttributes['class'] }>()
 
-	const props = defineProps<LabelProps & { class?: HTMLAttributes["class"] }>()
+const delegatedProps = computed(() => {
+  const { class: _, ...delegated } = props
 
-	const delegatedProps = computed(() => {
-		const { class: _, ...delegated } = props
-
-		return delegated
-	})
+  return delegated
+})
 </script>
 
 <template>
-	<Label
-		:class="
+  <Label
+    v-bind="delegatedProps"
+    :class="
       cn(
         'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
         props.class,
       )
     "
-		v-bind="delegatedProps"
-	>
-		<slot />
-	</Label>
+  >
+    <slot />
+  </Label>
 </template>

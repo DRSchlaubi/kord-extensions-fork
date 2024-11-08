@@ -82,5 +82,6 @@ license {
 	exclude("**/index-*.js", "**/index-*.css")
 	exclude("dist/**")
 	exclude("public/**")
+	exclude("components/ui/**")
 	exclude("node_modules/**")
 }

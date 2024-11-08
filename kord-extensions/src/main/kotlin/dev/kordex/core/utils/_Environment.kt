@@ -8,7 +8,9 @@
 
 package dev.kordex.core.utils
 
+import dev.kordex.core.serialization.deserializeRaw
 import io.github.oshai.kotlinlogging.KotlinLogging
+import kotlinx.serialization.serializer
 import kotlin.io.path.Path
 import kotlin.io.path.isRegularFile
 import kotlin.io.path.readLines
@@ -100,3 +102,48 @@ public fun env(name: String): String =
 		"Missing environmental variable '$name' - please set this by adding it to a `.env` file, or using your " +
 			"system or process manager's environment management commands and tools."
 	)
+
+/**
+ * Deserializes the value of an environmental variable, loading from a `.env` file in the current working directory
+ * if possible.
+ *
+ * @param T Type to deserialize to, which must support kotlinx.serialization.
+ * @param name Environmental variable to get the value for.
+ *
+ * @throws RuntimeException Thrown if the environmental variable can't be found.
+ * @throws kotlinx.serialization.SerializationException Thrown if deserialization fails.
+ *
+ * @return The value of the environmental variable, deserialized to type [T].
+ */
+public inline fun <reified T : Any> envOfOrNull(name: String): T? {
+	val value = envOrNull(name)
+
+	if (value == null) {
+		return null
+	}
+
+	@Suppress("TooGenericExceptionCaught")
+	return try {
+		serializer<T>().deserializeRaw(value)
+	} catch (_: Exception) {
+		null
+	}
+}
+
+/**
+ * Deserializes the value of an environmental variable, loading from a `.env` file in the current working directory
+ * if possible.
+ *
+ * This function will throw an exception if the environmental variable can't be found, or the value can't be
+ * deserialized.
+ *
+ * @param T Type to deserialize to, which must support kotlinx.serialization.
+ * @param name Environmental variable to get the value for.
+ *
+ * @throws RuntimeException Thrown if the environmental variable can't be found.
+ * @throws kotlinx.serialization.SerializationException Thrown if deserialization fails.
+ *
+ * @return The value of the environmental variable, deserialized to type [T].
+ */
+public inline fun <reified T : Any> envOf(name: String): T =
+	serializer<T>().deserializeRaw(env(name))

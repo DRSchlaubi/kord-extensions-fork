@@ -1,37 +1,29 @@
-<!--
-	Copyrighted (Kord Extensions, 2024). Licensed under the EUPL-1.2
-	with the specific provision (EUPL articles 14 & 15) that the
-	applicable law is the (Republic of) Irish law and the Jurisdiction
-	Dublin.
-	Any redistribution must include the specific provision above.
--->
+<script setup lang="ts">
+import { cn } from '@/lib/utils'
+import {
+  ScrollAreaCorner,
+  ScrollAreaRoot,
+  type ScrollAreaRootProps,
+  ScrollAreaViewport,
+} from 'radix-vue'
+import { computed, type HTMLAttributes } from 'vue'
+import ScrollBar from './ScrollBar.vue'
 
-<script lang="ts" setup>
-	import { type HTMLAttributes, computed } from "vue"
-	import {
-		ScrollAreaCorner,
-		ScrollAreaRoot,
-		type ScrollAreaRootProps,
-		ScrollAreaViewport,
-	} from "radix-vue"
-	import ScrollBar from "./ScrollBar.vue"
-	import { cn } from "@/lib/utils"
+const props = defineProps<ScrollAreaRootProps & { class?: HTMLAttributes['class'] }>()
 
-	const props = defineProps<ScrollAreaRootProps & { class?: HTMLAttributes["class"] }>()
+const delegatedProps = computed(() => {
+  const { class: _, ...delegated } = props
 
-	const delegatedProps = computed(() => {
-		const { class: _, ...delegated } = props
-
-		return delegated
-	})
+  return delegated
+})
 </script>
 
 <template>
-	<ScrollAreaRoot :class="cn('relative overflow-hidden', props.class)" v-bind="delegatedProps">
-		<ScrollAreaViewport class="h-full w-full rounded-[inherit]">
-			<slot />
-		</ScrollAreaViewport>
-		<ScrollBar />
-		<ScrollAreaCorner />
-	</ScrollAreaRoot>
+  <ScrollAreaRoot v-bind="delegatedProps" :class="cn('relative overflow-hidden', props.class)">
+    <ScrollAreaViewport class="h-full w-full rounded-[inherit]">
+      <slot />
+    </ScrollAreaViewport>
+    <ScrollBar />
+    <ScrollAreaCorner />
+  </ScrollAreaRoot>
 </template>

@@ -26,7 +26,7 @@ import dev.kordex.core.i18n.withContext
 import dev.kordex.parser.StringParser
 
 /**
- * Coalescing argument that simply returns the argument as it was given.
+ * Converter that simply returns the argument as given.
  *
  * The multi version of this converter (via [toList]) will consume all remaining arguments.
  *

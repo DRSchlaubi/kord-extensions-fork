@@ -1,28 +1,20 @@
-<!--
-	Copyrighted (Kord Extensions, 2024). Licensed under the EUPL-1.2
-	with the specific provision (EUPL articles 14 & 15) that the
-	applicable law is the (Republic of) Irish law and the Jurisdiction
-	Dublin.
-	Any redistribution must include the specific provision above.
--->
+<script setup lang="ts">
+import { cn } from '@/lib/utils'
+import {
+  ContextMenuSeparator,
+  type ContextMenuSeparatorProps,
+} from 'radix-vue'
+import { computed, type HTMLAttributes } from 'vue'
 
-<script lang="ts" setup>
-	import { type HTMLAttributes, computed } from "vue"
-	import {
-		ContextMenuSeparator,
-		type ContextMenuSeparatorProps,
-	} from "radix-vue"
-	import { cn } from "@/lib/utils"
+const props = defineProps<ContextMenuSeparatorProps & { class?: HTMLAttributes['class'] }>()
 
-	const props = defineProps<ContextMenuSeparatorProps & { class?: HTMLAttributes["class"] }>()
+const delegatedProps = computed(() => {
+  const { class: _, ...delegated } = props
 
-	const delegatedProps = computed(() => {
-		const { class: _, ...delegated } = props
-
-		return delegated
-	})
+  return delegated
+})
 </script>
 
 <template>
-	<ContextMenuSeparator :class="cn('-mx-1 my-1 h-px bg-border', props.class)" v-bind="delegatedProps" />
+  <ContextMenuSeparator v-bind="delegatedProps" :class="cn('-mx-1 my-1 h-px bg-border', props.class)" />
 </template>

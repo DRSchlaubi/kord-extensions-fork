@@ -1,41 +1,33 @@
-<!--
-	Copyrighted (Kord Extensions, 2024). Licensed under the EUPL-1.2
-	with the specific provision (EUPL articles 14 & 15) that the
-	applicable law is the (Republic of) Irish law and the Jurisdiction
-	Dublin.
-	Any redistribution must include the specific provision above.
--->
+<script setup lang="ts">
+import { cn } from '@/lib/utils'
+import { ChevronRight } from 'lucide-vue-next'
+import {
+  DropdownMenuSubTrigger,
+  type DropdownMenuSubTriggerProps,
+  useForwardProps,
+} from 'radix-vue'
+import { computed, type HTMLAttributes } from 'vue'
 
-<script lang="ts" setup>
-	import { type HTMLAttributes, computed } from "vue"
-	import {
-		DropdownMenuSubTrigger,
-		type DropdownMenuSubTriggerProps,
-		useForwardProps,
-	} from "radix-vue"
-	import { ChevronRight } from "lucide-vue-next"
-	import { cn } from "@/lib/utils"
+const props = defineProps<DropdownMenuSubTriggerProps & { class?: HTMLAttributes['class'] }>()
 
-	const props = defineProps<DropdownMenuSubTriggerProps & { class?: HTMLAttributes["class"] }>()
+const delegatedProps = computed(() => {
+  const { class: _, ...delegated } = props
 
-	const delegatedProps = computed(() => {
-		const { class: _, ...delegated } = props
+  return delegated
+})
 
-		return delegated
-	})
-
-	const forwardedProps = useForwardProps(delegatedProps)
+const forwardedProps = useForwardProps(delegatedProps)
 </script>
 
 <template>
-	<DropdownMenuSubTrigger
-		:class="cn(
+  <DropdownMenuSubTrigger
+    v-bind="forwardedProps"
+    :class="cn(
       'flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent',
       props.class,
     )"
-		v-bind="forwardedProps"
-	>
-		<slot />
-		<ChevronRight class="ml-auto h-4 w-4" />
-	</DropdownMenuSubTrigger>
+  >
+    <slot />
+    <ChevronRight class="ml-auto h-4 w-4" />
+  </DropdownMenuSubTrigger>
 </template>

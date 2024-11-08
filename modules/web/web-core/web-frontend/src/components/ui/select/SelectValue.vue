@@ -1,19 +1,11 @@
-<!--
-	Copyrighted (Kord Extensions, 2024). Licensed under the EUPL-1.2
-	with the specific provision (EUPL articles 14 & 15) that the
-	applicable law is the (Republic of) Irish law and the Jurisdiction
-	Dublin.
-	Any redistribution must include the specific provision above.
--->
+<script setup lang="ts">
+import { SelectValue, type SelectValueProps } from 'radix-vue'
 
-<script lang="ts" setup>
-	import { SelectValue, type SelectValueProps } from "radix-vue"
-
-	const props = defineProps<SelectValueProps>()
+const props = defineProps<SelectValueProps>()
 </script>
 
 <template>
-	<SelectValue v-bind="props">
-		<slot />
-	</SelectValue>
+  <SelectValue v-bind="props">
+    <slot />
+  </SelectValue>
 </template>

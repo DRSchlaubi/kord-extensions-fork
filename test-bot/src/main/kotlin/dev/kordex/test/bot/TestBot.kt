@@ -22,6 +22,7 @@ import dev.kordex.core.annotations.NotTranslated
 import dev.kordex.core.builders.about.CopyrightType
 import dev.kordex.core.checks.isNotBot
 import dev.kordex.core.utils.env
+import dev.kordex.core.utils.envOf
 import dev.kordex.core.utils.envOrNull
 import dev.kordex.data.api.DataCollection
 import dev.kordex.modules.func.mappings.extMappings
@@ -32,7 +33,7 @@ import dev.kordex.test.bot.extensions.*
 import dev.kordex.test.bot.utils.LogLevel
 import org.koin.core.logger.Level
 
-public val TEST_SERVER_ID: Snowflake = Snowflake(env("TEST_SERVER"))
+public val TEST_SERVER_ID: Snowflake = envOf("TEST_SERVER")
 
 @OptIn(PrivilegedIntent::class, NotTranslated::class)
 public suspend fun main() {
@@ -42,6 +43,10 @@ public suspend fun main() {
 		dataCollectionMode = DataCollection.Extra
 		devMode = true
 		koinLogLevel = Level.DEBUG
+
+		kord {
+			stackTraceRecovery = true
+		}
 
 		about {
 			ephemeral = false

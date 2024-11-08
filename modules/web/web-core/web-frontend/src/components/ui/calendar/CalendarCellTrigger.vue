@@ -1,31 +1,23 @@
-<!--
-	Copyrighted (Kord Extensions, 2024). Licensed under the EUPL-1.2
-	with the specific provision (EUPL articles 14 & 15) that the
-	applicable law is the (Republic of) Irish law and the Jurisdiction
-	Dublin.
-	Any redistribution must include the specific provision above.
--->
-
 <script lang="ts" setup>
-	import { type HTMLAttributes, computed } from "vue"
-	import { CalendarCellTrigger, type CalendarCellTriggerProps, useForwardProps } from "radix-vue"
-	import { buttonVariants } from "@/components/ui/button"
-	import { cn } from "@/lib/utils"
+import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import { CalendarCellTrigger, type CalendarCellTriggerProps, useForwardProps } from 'radix-vue'
+import { computed, type HTMLAttributes } from 'vue'
 
-	const props = defineProps<CalendarCellTriggerProps & { class?: HTMLAttributes["class"] }>()
+const props = defineProps<CalendarCellTriggerProps & { class?: HTMLAttributes['class'] }>()
 
-	const delegatedProps = computed(() => {
-		const { class: _, ...delegated } = props
+const delegatedProps = computed(() => {
+  const { class: _, ...delegated } = props
 
-		return delegated
-	})
+  return delegated
+})
 
-	const forwardedProps = useForwardProps(delegatedProps)
+const forwardedProps = useForwardProps(delegatedProps)
 </script>
 
 <template>
-	<CalendarCellTrigger
-		:class="cn(
+  <CalendarCellTrigger
+    :class="cn(
       buttonVariants({ variant: 'ghost' }),
       'h-9 w-9 p-0 font-normal',
       '[&[data-today]:not([data-selected])]:bg-accent [&[data-today]:not([data-selected])]:text-accent-foreground',
@@ -36,11 +28,11 @@
       // Unavailable
       'data-[unavailable]:text-destructive-foreground data-[unavailable]:line-through',
       // Outside months
-      'data-[outside-month]:pointer-events-none data-[outside-month]:text-muted-foreground data-[outside-month]:opacity-50 [&[data-outside-month][data-selected]]:bg-accent/50 [&[data-outside-month][data-selected]]:text-muted-foreground [&[data-outside-month][data-selected]]:opacity-30',
+      'data-[outside-view]:text-muted-foreground data-[outside-view]:opacity-50 [&[data-outside-view][data-selected]]:bg-accent/50 [&[data-outside-view][data-selected]]:text-muted-foreground [&[data-outside-view][data-selected]]:opacity-30',
       props.class,
     )"
-		v-bind="forwardedProps"
-	>
-		<slot />
-	</CalendarCellTrigger>
+    v-bind="forwardedProps"
+  >
+    <slot />
+  </CalendarCellTrigger>
 </template>
