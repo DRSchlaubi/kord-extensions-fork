@@ -40,6 +40,8 @@ import java.nio.file.Files
 import java.util.*
 import kotlin.time.Duration.Companion.minutes
 
+private const val forkName = "mikbot"
+
 @OptIn(InternalAPI::class)
 @Suppress("StringLiteralDuplication", "MagicNumber")
 public class DataCollector(public val level: DataCollection) : KordExKoinComponent {
@@ -269,17 +271,14 @@ public class DataCollector(public val level: DataCollection) : KordExKoinCompone
 
 			logger.debug { "Submitting collected data - level: ${level.readable}, last UUID: $lastUUID" }
 
-			/*
-			 * If you're maintaining a fork of Kord Extensions, uncomment the following block of code and add the
-			 * name of your fork.
-			 *
-			 * Fork names should be lowered-kebab-case, ideally containing only lower-case letters, numbers, and
-			 * dashes.
-			 */
 
-			// entity = entity.copy(
-			//     fork = "fork-name"
-			// )
+			// This is only required for the mikbot fork
+			entity = when(entity) {
+				is MinimalDataEntity -> entity.copy(fork = forkName)
+				is StandardDataEntity -> entity.copy(fork = forkName)
+				is ExtraDataEntity -> entity.copy(fork = forkName)
+				else -> entity
+			}
 
 			val response = DataAPIClient.submit(entity)
 
