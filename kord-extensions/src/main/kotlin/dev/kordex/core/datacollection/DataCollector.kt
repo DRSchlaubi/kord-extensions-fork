@@ -115,6 +115,7 @@ public class DataCollector(public val level: DataCollection) : KordExKoinCompone
 						modules = KORDEX_MODULES.associateWith {
 							KORDEX_VERSION ?: "Unknown"
 						},
+						fork = FORK_NAME
 					)
 
 				is DataCollection.Standard ->
@@ -169,6 +170,7 @@ public class DataCollector(public val level: DataCollection) : KordExKoinCompone
 
 						jvmVersion = System.getProperty("java.version"),
 						kotlinVersion = KotlinVersion.CURRENT.toString(),
+						fork = FORK_NAME
 					)
 
 				is DataCollection.Extra -> {
@@ -237,7 +239,8 @@ public class DataCollector(public val level: DataCollection) : KordExKoinCompone
 						plugins = settings.pluginBuilder.managerObj.plugins.map { it.descriptor.pluginId }
 							.toTypedArray(),
 						ramAvailable = hardware.memory.total,
-						threadCount = processor.logicalProcessorCount
+						threadCount = processor.logicalProcessorCount,
+						fork = FORK_NAME
 					)
 
 					if (applicationInfo.team != null) {
@@ -270,14 +273,6 @@ public class DataCollector(public val level: DataCollection) : KordExKoinCompone
 			}
 
 			logger.debug { "Submitting collected data - level: ${level.readable}, last UUID: $lastUUID" }
-
-			// This is only required for the mikbot fork
-			entity = when (entity) {
-				is MinimalDataEntity -> entity.copy(fork = FORK_NAME)
-				is StandardDataEntity -> entity.copy(fork = FORK_NAME)
-				is ExtraDataEntity -> entity.copy(fork = FORK_NAME)
-				else -> entity
-			}
 
 			val response = DataAPIClient.submit(entity)
 
